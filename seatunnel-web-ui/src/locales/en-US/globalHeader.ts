@@ -15,4 +15,6 @@ export default {
   'component.noticeIcon.cleared': 'Cleared',
   'component.noticeIcon.empty': 'No notifications',
   'component.noticeIcon.view-more': 'View more',
+  'component.themeSwitch.toLight': 'Switch to light mode',
+  'component.themeSwitch.toDark': 'Switch to dark mode',
 };

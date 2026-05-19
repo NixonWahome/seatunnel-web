@@ -1,15 +1,28 @@
 import { MoonOutlined, SunOutlined } from "@ant-design/icons";
-import { useModel } from "@umijs/max";
-import { Tooltip } from "antd";
-import React from "react";
+import { useAntdConfigSetter, useIntl, useModel } from "@umijs/max";
+import { Tooltip, theme } from "antd";
+import React, { useCallback } from "react";
+
+export const THEME_STORAGE_KEY = "seatunnel-web-theme";
+export const DARK_THEME = "realDark";
+export const LIGHT_THEME = "light";
 
 const ThemeSwitch: React.FC = () => {
   const { initialState, setInitialState } = useModel("@@initialState");
+  const setAntdConfig = useAntdConfigSetter();
+  const intl = useIntl();
 
-  const isDark = initialState?.settings?.navTheme === "realDark";
+  const isDark = initialState?.settings?.navTheme === DARK_THEME;
 
-  const toggleTheme = async () => {
-    const nextTheme = isDark ? "light" : "realDark";
+  const toggleTheme = useCallback(async () => {
+    const nextIsDark = !isDark;
+    const nextTheme = nextIsDark ? DARK_THEME : LIGHT_THEME;
+
+    setAntdConfig({
+      theme: {
+        algorithm: nextIsDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      },
+    });
 
     await setInitialState((prev) => ({
       ...prev,
@@ -19,11 +32,15 @@ const ThemeSwitch: React.FC = () => {
       },
     }));
 
-    localStorage.setItem("seatunnel-web-theme", nextTheme);
-  };
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+  }, [isDark, setAntdConfig, setInitialState]);
+
+  const tooltipTitle = intl.formatMessage({
+    id: isDark ? "component.themeSwitch.toLight" : "component.themeSwitch.toDark",
+  });
 
   return (
-    <Tooltip title={isDark ? "切换浅色模式" : "切换暗黑模式"}>
+    <Tooltip title={tooltipTitle}>
       <div
         onClick={toggleTheme}
         style={{

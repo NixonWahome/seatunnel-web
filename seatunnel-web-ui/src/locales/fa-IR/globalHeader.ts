@@ -15,4 +15,6 @@ export default {
   'component.noticeIcon.cleared': 'پاک شد',
   'component.noticeIcon.empty': 'بدون اعلان',
   'component.noticeIcon.view-more': 'نمایش بیشتر',
+  'component.themeSwitch.toLight': 'تغییر به حالت روشن',
+  'component.themeSwitch.toDark': 'تغییر به حالت تاریک',
 };

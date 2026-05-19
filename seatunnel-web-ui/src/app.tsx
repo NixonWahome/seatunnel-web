@@ -11,15 +11,43 @@ import { SettingDrawer } from "@ant-design/pro-components";
 import "@ant-design/v5-patch-for-react-19";
 import type { RequestConfig, RunTimeLayoutConfig } from "@umijs/max";
 import { history } from "@umijs/max";
+import { theme as antdTheme } from "antd";
 import defaultSettings from "../config/defaultSettings";
 import { GlobalSearch, Knowledge, OpenAPI } from "./components/RightContent";
+import ThemeSwitch, {
+  DARK_THEME,
+  LIGHT_THEME,
+  THEME_STORAGE_KEY,
+} from "./components/RightContent/ThemeSwitch";
 import { errorConfig } from "./requestErrorConfig";
 import HttpUtils from "./utils/HttpUtils";
-import ThemeSwitch from "./components/RightContent/ThemeSwitch";
 
 
 const isDev = process.env.NODE_ENV === "development";
 const loginPath = "/login";
+
+const readStoredTheme = (): typeof DARK_THEME | typeof LIGHT_THEME => {
+  if (typeof window === "undefined") {
+    return LIGHT_THEME;
+  }
+  return localStorage.getItem(THEME_STORAGE_KEY) === DARK_THEME
+    ? DARK_THEME
+    : LIGHT_THEME;
+};
+
+// Apply the user's last-chosen theme to Ant Design before the first paint.
+export const antd = (memo: Record<string, any>) => {
+  const isDark = readStoredTheme() === DARK_THEME;
+  return {
+    ...memo,
+    theme: {
+      ...(memo.theme || {}),
+      algorithm: isDark
+        ? antdTheme.darkAlgorithm
+        : antdTheme.defaultAlgorithm,
+    },
+  };
+};
 
 /**
  * @see https://umijs.org/docs/api/runtime-config#getinitialstate
@@ -43,6 +71,11 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
+  const settings: Partial<LayoutSettings> = {
+    ...(defaultSettings as Partial<LayoutSettings>),
+    navTheme: readStoredTheme(),
+  };
+
   // 如果不是登录页面，执行
   const { location } = history;
   if (
@@ -54,12 +87,12 @@ export async function getInitialState(): Promise<{
     return {
       fetchUserInfo,
       currentUser,
-      settings: defaultSettings as Partial<LayoutSettings>,
+      settings,
     };
   }
   return {
     fetchUserInfo,
-    settings: defaultSettings as Partial<LayoutSettings>,
+    settings,
   };
 }
 

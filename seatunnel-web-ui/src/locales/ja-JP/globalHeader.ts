@@ -14,4 +14,6 @@ export default {
   'component.noticeIcon.cleared': 'クリア済み',
   'component.noticeIcon.empty': '通知なし',
   'component.noticeIcon.view-more': 'もっと見る',
+  'component.themeSwitch.toLight': 'ライトモードに切り替え',
+  'component.themeSwitch.toDark': 'ダークモードに切り替え',
 };
