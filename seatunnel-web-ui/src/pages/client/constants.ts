@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export const panelStyle: React.CSSProperties = {
   borderRadius: 20,
   padding: 0,
-  border: "1px solid #eef2f6",
+  border: "1px solid var(--ant-color-border-secondary)",
   boxShadow: "0 10px 30px rgba(31, 35, 41, 0.04)",
 };
 
@@ -25,10 +25,10 @@ export const iconWrapStyle: React.CSSProperties = {
 export const MotionDiv = motion.div;
 
 export const BLUE = "hsl(231 48% 48%)";
-export const TEXT_SECONDARY = "#667085";
-export const BORDER_COLOR = "#EAECF0";
-export const PAGE_BG = "#FFFFFF";
-export const CARD_BG = "#FFFFFF";
+export const TEXT_SECONDARY = "var(--ant-color-text-secondary)";
+export const BORDER_COLOR = "var(--ant-color-border-secondary)";
+export const PAGE_BG = "var(--ant-color-bg-layout)";
+export const CARD_BG = "var(--ant-color-bg-container)";
 export const BLUE_LIGHT = "#EEF4FF";
 
 export const contentSwapVariants = {

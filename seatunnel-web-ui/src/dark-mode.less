@@ -1,22 +1,27 @@
 // =============================================================================
 // Dark mode overrides.
 //
-// Custom (non-Ant Design) classes in this codebase hardcode light-mode colors
-// (e.g. background: white, color: #101828). When the user toggles dark mode,
-// Ant Design's algorithm flips the --ant-* CSS variables, but those hardcoded
-// values continue to win the cascade. This file overrides them via a single
-// html[data-theme="dark"] attribute selector so dark mode reads correctly
-// across the entire app.
+// This codebase paints many surfaces with three things that the Ant Design
+// dark algorithm cannot reach on its own:
 //
-// Add new selectors here when you spot a custom class that doesn't follow
-// the theme. Do not touch this file to change individual page styles —
-// modify the page's own .less and let the cascade work in light mode.
+//   1. Custom .less classes with hardcoded colors (e.g. .headerSection).
+//   2. Inline styles populated from JS color constants (PAGE_BG, CARD_BG).
+//      Fix: change the constants to "var(--ant-color-...)" so inline styles
+//      resolve dynamically. That happens in each page's constants.ts file.
+//   3. Tailwind utility classes (.bg-white, .text-slate-900, .border-slate-200,
+//      arbitrary values like .text-[#172033]) compiled directly from JSX.
+//
+// This stylesheet handles (1) and (3) by overriding both groups in a single
+// html[data-theme="dark"] block. Add new selectors here when you spot a class
+// that doesn't follow the theme — don't edit individual page .less files.
 // =============================================================================
 
 html[data-theme="dark"] {
-  // ---------------------------------------------------------------------------
-  // Primary surfaces: full white backgrounds that should become the dark bg.
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // SECTION 1 — Custom .less classes from page-level files
+  // ===========================================================================
+
+  // Primary surfaces (page containers, headers, main content areas).
   .headerSection,
   .commonWrapper,
   .datasource-page-container,
@@ -48,9 +53,7 @@ html[data-theme="dark"] {
     background-color: var(--ant-color-bg-container) !important;
   }
 
-  // ---------------------------------------------------------------------------
-  // Elevated surfaces: cards, panels with a slight lift from the page bg.
-  // ---------------------------------------------------------------------------
+  // Elevated surfaces (cards, panels).
   .datasource-card,
   .datasource-card-cover,
   .datasource-card-logo,
@@ -64,18 +67,10 @@ html[data-theme="dark"] {
   .quality-detail-drawer__table-wrap {
     background: var(--ant-color-bg-elevated) !important;
     background-color: var(--ant-color-bg-elevated) !important;
-  }
-
-  // Gradients that fade from light-white to off-white — collapse to the
-  // elevated solid in dark mode.
-  .lf-ds-selector__section,
-  .lf-ds-selector__card {
     background-image: none !important;
   }
 
-  // ---------------------------------------------------------------------------
-  // Soft fill surfaces: subtle backgrounds (light gray / off-white / pale tint).
-  // ---------------------------------------------------------------------------
+  // Soft fill surfaces (light gray hints, subtle backgrounds).
   .task-detail-content,
   .dc-bcm-detail,
   .css-1qqgizd,
@@ -105,19 +100,7 @@ html[data-theme="dark"] {
     background-image: none !important;
   }
 
-  // Special-case: drawer body gradient.
-  .quality-detail-drawer .ant-drawer-content {
-    background: var(--ant-color-bg-container) !important;
-    background-image: none !important;
-  }
-  .quality-detail-drawer .ant-drawer-header {
-    background: var(--ant-color-bg-elevated) !important;
-    border-bottom-color: var(--ant-color-border-secondary) !important;
-  }
-
-  // ---------------------------------------------------------------------------
-  // Primary text: near-black hardcoded text that becomes unreadable on dark.
-  // ---------------------------------------------------------------------------
+  // Custom .less near-black text.
   .headerSectionTitle,
   .dc-nav-header-title22,
   .jy-dc-ui-title-name-content,
@@ -146,9 +129,7 @@ html[data-theme="dark"] {
     color: var(--ant-color-text) !important;
   }
 
-  // ---------------------------------------------------------------------------
-  // Secondary text: mid-gray text that needs lightening on dark.
-  // ---------------------------------------------------------------------------
+  // Custom .less mid-gray text.
   .headerDescription,
   .datasource-page-description,
   .quality-detail-drawer__subtext,
@@ -169,9 +150,7 @@ html[data-theme="dark"] {
     color: var(--ant-color-text-secondary) !important;
   }
 
-  // ---------------------------------------------------------------------------
-  // Tertiary text: faint gray text (placeholders, meta info, hints).
-  // ---------------------------------------------------------------------------
+  // Custom .less tertiary text.
   .datasource-page-count,
   .datasource-card-update-time,
   .datasource-empty-state,
@@ -189,9 +168,7 @@ html[data-theme="dark"] {
     color: var(--ant-color-text-tertiary) !important;
   }
 
-  // ---------------------------------------------------------------------------
-  // Borders: light-gray hardcoded borders that disappear on dark surfaces.
-  // ---------------------------------------------------------------------------
+  // Custom .less borders.
   .datasource-card,
   .datasource-empty-state,
   .lf-ds-selector__section,
@@ -219,9 +196,171 @@ html[data-theme="dark"] {
     border-color: var(--ant-color-border-secondary) !important;
   }
 
-  // ---------------------------------------------------------------------------
-  // ProLayout chrome edge cases that the global.less fix didn't fully cover.
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // SECTION 2 — Tailwind utility classes
+  // Generated by Tailwind from JSX className strings. Dozens of components use
+  // these directly, so overriding the utility class is the only way to reach
+  // them without touching every component file.
+  // ===========================================================================
+
+  // White and translucent-white backgrounds. The opacity suffix uses a slash
+  // in the class name, which must be escaped in CSS.
+  .bg-white,
+  .bg-white\/90,
+  .bg-white\/80,
+  .bg-white\/70,
+  .bg-white\/60,
+  .bg-white\/50,
+  .hover\:bg-white:hover,
+  .hover\:\!bg-white:hover {
+    background-color: var(--ant-color-bg-container) !important;
+  }
+
+  // Slate / gray light-gray surfaces (cards, hover states).
+  .bg-slate-50,
+  .bg-slate-100,
+  .bg-gray-50,
+  .bg-gray-100,
+  .bg-neutral-50,
+  .bg-neutral-100,
+  .bg-zinc-50,
+  .bg-zinc-100,
+  .hover\:bg-slate-50:hover,
+  .hover\:bg-slate-100:hover,
+  .hover\:\!bg-slate-50:hover,
+  .hover\:\!bg-slate-100:hover {
+    background-color: var(--ant-color-fill-quaternary) !important;
+  }
+
+  // Slate / gray near-black text → primary text.
+  .text-slate-900,
+  .text-slate-800,
+  .text-gray-900,
+  .text-gray-800,
+  .text-neutral-900,
+  .text-neutral-800,
+  .text-zinc-900,
+  .text-zinc-800,
+  .hover\:text-slate-800:hover,
+  .hover\:text-slate-900:hover,
+  .hover\:\!text-slate-800:hover,
+  .hover\:\!text-slate-900:hover {
+    color: var(--ant-color-text) !important;
+  }
+
+  // Slate / gray dark-mid text → secondary text.
+  .text-slate-700,
+  .text-slate-600,
+  .text-gray-700,
+  .text-gray-600,
+  .text-neutral-700,
+  .text-neutral-600,
+  .text-zinc-700,
+  .text-zinc-600,
+  .\!text-slate-700,
+  .\!text-slate-600,
+  .hover\:text-slate-700:hover,
+  .hover\:\!text-slate-700:hover {
+    color: var(--ant-color-text-secondary) !important;
+  }
+
+  // Slate / gray faint text → tertiary text.
+  .text-slate-500,
+  .text-slate-400,
+  .text-gray-500,
+  .text-gray-400,
+  .text-neutral-500,
+  .text-neutral-400,
+  .text-zinc-500,
+  .text-zinc-400 {
+    color: var(--ant-color-text-tertiary) !important;
+  }
+
+  // Slate / gray light borders → subtle border.
+  .border-slate-100,
+  .border-slate-200,
+  .border-slate-300,
+  .border-gray-100,
+  .border-gray-200,
+  .border-gray-300,
+  .border-neutral-200,
+  .border-zinc-200,
+  .\!border-slate-200,
+  .\!border-slate-300,
+  .hover\:border-slate-200:hover,
+  .hover\:border-slate-300:hover,
+  .hover\:\!border-slate-300:hover {
+    border-color: var(--ant-color-border-secondary) !important;
+  }
+
+  // ===========================================================================
+  // SECTION 3 — Tailwind arbitrary value classes (text-[#hex], bg-[#hex],
+  // border-[#hex]). These compile to literal class names with escaped brackets.
+  // Listed by actual hex used in the codebase. Add new ones here as discovered.
+  // ===========================================================================
+
+  // Arbitrary near-black text → primary.
+  .text-\[\#101828\],
+  .text-\[\#172033\],
+  .text-\[\#1E202D\],
+  .text-\[\#1e202d\] {
+    color: var(--ant-color-text) !important;
+  }
+
+  // Arbitrary mid-gray text → secondary.
+  .text-\[\#344054\],
+  .text-\[\#354052\],
+  .text-\[\#475467\],
+  .text-\[\#44546F\],
+  .text-\[\#556070\],
+  .text-\[\#667085\],
+  .text-\[\#676f83\] {
+    color: var(--ant-color-text-secondary) !important;
+  }
+
+  // Arbitrary faint-gray text → tertiary.
+  .text-\[\#8A94A6\],
+  .text-\[\#8a94a6\],
+  .text-\[\#98A2B3\],
+  .text-\[\#9CA1BA\],
+  .text-\[\#9ca1ba\] {
+    color: var(--ant-color-text-tertiary) !important;
+  }
+
+  // Arbitrary white-ish backgrounds → container.
+  .bg-\[\#FFFFFF\],
+  .bg-\[\#ffffff\],
+  .bg-\[\#FFF\],
+  .bg-\[\#fff\] {
+    background-color: var(--ant-color-bg-container) !important;
+  }
+
+  // Arbitrary near-white tinted backgrounds → fill.
+  .bg-\[\#F8FAFC\],
+  .bg-\[\#f8fafc\],
+  .bg-\[\#F3F6FB\],
+  .bg-\[\#F9FAFB\],
+  .bg-\[\#f9fafb\],
+  .bg-\[\#EFF8FF\] {
+    background-color: var(--ant-color-fill-quaternary) !important;
+  }
+
+  // Arbitrary light borders → subtle border.
+  .border-\[\#D0D5DD\],
+  .border-\[\#E9EDF3\],
+  .border-\[\#EAECF0\],
+  .border-\[\#EAF0F6\],
+  .border-\[\#EEF2F6\],
+  .border-\[\#F2F4F7\],
+  .border-\[\#EFF8FF\],
+  .hover\:\!border-\[\#B2DDFF\]:hover {
+    border-color: var(--ant-color-border-secondary) !important;
+  }
+
+  // ===========================================================================
+  // SECTION 4 — ProLayout / Ant Design chrome edge cases
+  // ===========================================================================
+
   .ant-pro-layout .ant-pro-layout-bg-list {
     background:
       radial-gradient(
@@ -232,7 +371,6 @@ html[data-theme="dark"] {
       var(--ant-color-bg-layout) !important;
   }
 
-  // Scrollbars become invisible on dark — bump the thumb contrast.
   ::-webkit-scrollbar-thumb {
     background: var(--ant-color-fill-tertiary) !important;
   }
@@ -240,9 +378,15 @@ html[data-theme="dark"] {
     background: var(--ant-color-fill-secondary) !important;
   }
 
-  // ---------------------------------------------------------------------------
-  // Ant Design table headers in pages that set custom table backgrounds.
-  // ---------------------------------------------------------------------------
+  // Quality drawer overrides — the drawer renders its own table styles.
+  .quality-detail-drawer .ant-drawer-content {
+    background: var(--ant-color-bg-container) !important;
+    background-image: none !important;
+  }
+  .quality-detail-drawer .ant-drawer-header {
+    background: var(--ant-color-bg-elevated) !important;
+    border-bottom-color: var(--ant-color-border-secondary) !important;
+  }
   .quality-detail-drawer__table-wrap {
     .ant-table-thead > tr > th {
       background: var(--ant-color-fill-quaternary) !important;
