@@ -15,6 +15,7 @@ import { theme as antdTheme } from "antd";
 import defaultSettings from "../config/defaultSettings";
 import { GlobalSearch, Knowledge, OpenAPI } from "./components/RightContent";
 import ThemeSwitch, {
+  applyHtmlThemeAttribute,
   DARK_THEME,
   LIGHT_THEME,
   THEME_STORAGE_KEY,
@@ -38,6 +39,9 @@ const readStoredTheme = (): typeof DARK_THEME | typeof LIGHT_THEME => {
 // Apply the user's last-chosen theme to Ant Design before the first paint.
 export const antd = (memo: Record<string, any>) => {
   const isDark = readStoredTheme() === DARK_THEME;
+  // Set the html[data-theme] attribute as early as possible so the dark-mode
+  // override stylesheet matches before the first paint.
+  applyHtmlThemeAttribute(isDark);
   return {
     ...memo,
     theme: {

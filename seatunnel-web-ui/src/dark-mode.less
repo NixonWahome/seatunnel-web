@@ -1,0 +1,264 @@
+// =============================================================================
+// Dark mode overrides.
+//
+// Custom (non-Ant Design) classes in this codebase hardcode light-mode colors
+// (e.g. background: white, color: #101828). When the user toggles dark mode,
+// Ant Design's algorithm flips the --ant-* CSS variables, but those hardcoded
+// values continue to win the cascade. This file overrides them via a single
+// html[data-theme="dark"] attribute selector so dark mode reads correctly
+// across the entire app.
+//
+// Add new selectors here when you spot a custom class that doesn't follow
+// the theme. Do not touch this file to change individual page styles —
+// modify the page's own .less and let the cascade work in light mode.
+// =============================================================================
+
+html[data-theme="dark"] {
+  // ---------------------------------------------------------------------------
+  // Primary surfaces: full white backgrounds that should become the dark bg.
+  // ---------------------------------------------------------------------------
+  .headerSection,
+  .commonWrapper,
+  .datasource-page-container,
+  .dc-nav-header,
+  .dc-ui-pro-step-footer,
+  .jy-dc-ui-pro-header,
+  .echart-container,
+  .metrics-container,
+  .task-detail-tabs,
+  .sync-page-header,
+  .sidePanel,
+  .sidePanelMain,
+  .sidePanelHeader,
+  .sidePanelBody,
+  .sidePanelTabs,
+  .sidePanelTabsTop,
+  .di-arrow-right-content,
+  .di-arrow-reader-content,
+  .di-network-status .di-arrow-right-content .di-arrow-reader-content,
+  .status-pill,
+  .modal-container-card,
+  .login-input,
+  .login-password-input,
+  .login-password-input.ant-input-affix-wrapper-focused,
+  .animated-profile-btn-v2,
+  .animated-profile-btn-v2 .default-layer,
+  .bg-components-kbd-bg-white-rounded-sm {
+    background: var(--ant-color-bg-container) !important;
+    background-color: var(--ant-color-bg-container) !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Elevated surfaces: cards, panels with a slight lift from the page bg.
+  // ---------------------------------------------------------------------------
+  .datasource-card,
+  .datasource-card-cover,
+  .datasource-card-logo,
+  .datasource-card-action-btn,
+  .ant-segmented-thumb,
+  .lf-ds-selector__section,
+  .lf-ds-selector__common-card,
+  .lf-ds-selector__filter-panel,
+  .lf-ds-selector__card,
+  .data-asset-header-metadata,
+  .quality-detail-drawer__table-wrap {
+    background: var(--ant-color-bg-elevated) !important;
+    background-color: var(--ant-color-bg-elevated) !important;
+  }
+
+  // Gradients that fade from light-white to off-white — collapse to the
+  // elevated solid in dark mode.
+  .lf-ds-selector__section,
+  .lf-ds-selector__card {
+    background-image: none !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Soft fill surfaces: subtle backgrounds (light gray / off-white / pale tint).
+  // ---------------------------------------------------------------------------
+  .task-detail-content,
+  .dc-bcm-detail,
+  .css-1qqgizd,
+  .time-range-segmented,
+  .method-segmented,
+  .task-type-segmented,
+  .custom-tabs-wrap .ant-segmented,
+  .sync-page-header__toolbar,
+  .datasource-empty-state,
+  .editable-row:hover,
+  .custom-table-row:hover,
+  .lf-ds-selector__chip.ant-btn-default,
+  .lf-ds-selector__search .ant-input-affix-wrapper,
+  .lf-ds-selector__result-count,
+  .lf-ds-selector__badge,
+  .lf-ds-selector__icon-wrap,
+  .lf-ds-selector__common-icon,
+  .sidePanelIconBox,
+  .sidePanelSettingIcon,
+  .sidePanelTab:hover,
+  .sidePanelTabActive,
+  .scene-copy__badge,
+  .sync-page-header__icon,
+  .quality-detail-drawer__tip {
+    background: var(--ant-color-fill-quaternary) !important;
+    background-color: var(--ant-color-fill-quaternary) !important;
+    background-image: none !important;
+  }
+
+  // Special-case: drawer body gradient.
+  .quality-detail-drawer .ant-drawer-content {
+    background: var(--ant-color-bg-container) !important;
+    background-image: none !important;
+  }
+  .quality-detail-drawer .ant-drawer-header {
+    background: var(--ant-color-bg-elevated) !important;
+    border-bottom-color: var(--ant-color-border-secondary) !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Primary text: near-black hardcoded text that becomes unreadable on dark.
+  // ---------------------------------------------------------------------------
+  .headerSectionTitle,
+  .dc-nav-header-title22,
+  .jy-dc-ui-title-name-content,
+  .datasource-card-title,
+  .datasource-card-jdbc-url,
+  .scene-copy__title,
+  .quality-detail-drawer__heading,
+  .modal-container-left-title,
+  .modal-container-left-title-secondary,
+  .modal-container-card-title,
+  .modal-container-input,
+  .modal-container-textarea,
+  .lf-ds-selector__title,
+  .lf-ds-selector__common-label,
+  .lf-ds-selector__card-name,
+  .lf-ds-selector__result-title,
+  .time-range-option__title,
+  .method-option__title,
+  .task-type-option__title,
+  .sync-page-header__title,
+  .css-1qqgizd .big-number,
+  .metric-card .big-number,
+  .ant-typography,
+  .render-domain-lebel-style,
+  .jy-dc-ui-title-name {
+    color: var(--ant-color-text) !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Secondary text: mid-gray text that needs lightening on dark.
+  // ---------------------------------------------------------------------------
+  .headerDescription,
+  .datasource-page-description,
+  .quality-detail-drawer__subtext,
+  .modal-container-left-subtitle,
+  .modal-container-card-desc,
+  .time-range-option,
+  .method-option,
+  .task-type-option__desc,
+  .css-1qqgizd .title,
+  .css-1qqgizd .small-number,
+  .metric-card .title,
+  .metric-card .small-number,
+  .sync-page-header__subtitle,
+  .sync-page-header__toolbar-label,
+  .lf-ds-selector__chip.ant-btn-default,
+  .datasource-card-update-time-value,
+  .sidePanelTab {
+    color: var(--ant-color-text-secondary) !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Tertiary text: faint gray text (placeholders, meta info, hints).
+  // ---------------------------------------------------------------------------
+  .datasource-page-count,
+  .datasource-card-update-time,
+  .datasource-empty-state,
+  .lf-ds-selector__subtitle,
+  .lf-ds-selector__common-desc,
+  .lf-ds-selector__card-meta,
+  .lf-ds-selector__result-keyword,
+  .lf-ds-selector__badge,
+  .lf-ds-selector__result-count,
+  .modal-container-left-title-tertiary,
+  .jy-dc-ui-title-sub-name,
+  .sync-page-header__arrow,
+  .task-detail-empty,
+  .scene-copy__desc {
+    color: var(--ant-color-text-tertiary) !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Borders: light-gray hardcoded borders that disappear on dark surfaces.
+  // ---------------------------------------------------------------------------
+  .datasource-card,
+  .datasource-empty-state,
+  .lf-ds-selector__section,
+  .lf-ds-selector__common-card,
+  .lf-ds-selector__filter-panel,
+  .lf-ds-selector__card,
+  .lf-ds-selector__chip.ant-btn-default,
+  .lf-ds-selector__search .ant-input-affix-wrapper,
+  .data-asset-header-metadata,
+  .modal-container-card,
+  .sidePanelHeader,
+  .sidePanelTabs,
+  .sidePanelTabsTop,
+  .sidePanelIconBox,
+  .sidePanelSettingIcon,
+  .sync-page-header__toolbar,
+  .lf-ds-card,
+  .login-input,
+  .login-password-input,
+  .animated-profile-btn-v2,
+  .status-pill,
+  .scene-copy__badge,
+  .quality-detail-drawer__tag,
+  .quality-detail-drawer__tip {
+    border-color: var(--ant-color-border-secondary) !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // ProLayout chrome edge cases that the global.less fix didn't fully cover.
+  // ---------------------------------------------------------------------------
+  .ant-pro-layout .ant-pro-layout-bg-list {
+    background:
+      radial-gradient(
+        circle at 30% 80%,
+        rgba(99, 154, 246, 0.06),
+        transparent 28%
+      ),
+      var(--ant-color-bg-layout) !important;
+  }
+
+  // Scrollbars become invisible on dark — bump the thumb contrast.
+  ::-webkit-scrollbar-thumb {
+    background: var(--ant-color-fill-tertiary) !important;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--ant-color-fill-secondary) !important;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Ant Design table headers in pages that set custom table backgrounds.
+  // ---------------------------------------------------------------------------
+  .quality-detail-drawer__table-wrap {
+    .ant-table-thead > tr > th {
+      background: var(--ant-color-fill-quaternary) !important;
+      color: var(--ant-color-text) !important;
+      border-bottom-color: var(--ant-color-border-secondary) !important;
+    }
+    .ant-table-tbody > tr > td {
+      background: var(--ant-color-bg-elevated) !important;
+      color: var(--ant-color-text-secondary) !important;
+      border-bottom-color: var(--ant-color-border-secondary) !important;
+    }
+    .ant-table-tbody > tr:hover > td {
+      background: var(--ant-color-fill-quaternary) !important;
+    }
+    .ant-table-container {
+      border-color: var(--ant-color-border-secondary) !important;
+    }
+  }
+}
